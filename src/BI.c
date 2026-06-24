@@ -483,6 +483,7 @@ void BI(double *bcov, double *pvalue, double *x, double *y, int *n, int *R, int 
     free(i_perm_inv);
     free_int_matrix(x_within_ball, *n, *n);
     free_int_matrix(y_within_ball, *n, *n);
+    free(auxiliary_value);
 }
 
 void U_Ball_Information(double *bcov_stat, int *n, int **Rank,

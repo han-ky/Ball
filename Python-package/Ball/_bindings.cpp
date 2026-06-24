@@ -38,8 +38,8 @@ static py::tuple py_bd_test(py::array_t<double, py::array::c_style> xy,
 static py::tuple py_bcov_test(py::array_t<double, py::array::c_style> x,
                               py::array_t<double, py::array::c_style> y,
                               int n, int R, int dst, int nthread) {
-    py::array_t<double> stat_arr(3);
-    py::array_t<double> pv_arr(3);
+    py::array_t<double> stat_arr(4);
+    py::array_t<double> pv_arr(4);
 
     bcov_test(stat_arr.mutable_data(), pv_arr.mutable_data(),
               x.mutable_data(), y.mutable_data(),
