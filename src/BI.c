@@ -597,7 +597,7 @@ void UBI(double *bcov, double *pvalue, double *x, double *y, int *n, int *R, int
                     permuted_bcov_weight0[j_thread] = bcov_tmp_thread[0];
                     permuted_bcov_weight_prob[j_thread] = bcov_tmp_thread[1];
                     permuted_bcov_weight_hhg[j_thread] = bcov_tmp_thread[2];
-                    permuted_bcov_weight_hhg[j_thread] = bcov_tmp_thread[3];
+                    permuted_bcov_weight_rbf[j_thread] = bcov_tmp_thread[3];
                 }
                 free_int_matrix(Rank_thread, (*n) + 1, (*n) + 1);
             }
