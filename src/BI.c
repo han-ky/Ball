@@ -521,6 +521,7 @@ void U_Ball_Information(double *bcov_stat, int *n, int **Rank,
 
 void UBI(double *bcov, double *pvalue, double *x, double *y, int *n, int *R, int *thread) {
     int i, j, *xidx, *yidx, *xrank, *yrank, *i_perm, **Rank, **lowxidx, **higxidx, **lowyidx, **higyidx;
+    double *x_cpy, *y_cpy;
 
     xidx = (int *) malloc(*n * sizeof(int));
     yidx = (int *) malloc(*n * sizeof(int));
@@ -532,6 +533,11 @@ void UBI(double *bcov, double *pvalue, double *x, double *y, int *n, int *R, int
     higxidx = alloc_int_matrix(*n, *n);
     lowyidx = alloc_int_matrix(*n, *n);
     higyidx = alloc_int_matrix(*n, *n);
+    
+    x_cpy = (double *) malloc(*n * sizeof(double));
+    y_cpy = (double *) malloc(*n * sizeof(double));
+    memcpy(x_cpy, x, *n * sizeof(double));
+    memcpy(y_cpy, y, *n * sizeof(double));
 
     for (i = 0; i < *n; i++) {
         xidx[i] = i;
@@ -540,12 +546,15 @@ void UBI(double *bcov, double *pvalue, double *x, double *y, int *n, int *R, int
     }
 
     // first step: sort the x, y and obtain index of x, y (after the x, y have been sorted)
-    quicksort(x, xidx, 0, *n - 1);
-    quicksort(y, yidx, 0, *n - 1);
-    ranksort(n, xrank, x, xidx);
-    ranksort(n, yrank, y, yidx);
-    createidx(n, xidx, x, lowxidx, higxidx);
-    createidx(n, yidx, y, lowyidx, higyidx);
+    quicksort(x_cpy, xidx, 0, *n - 1);
+    quicksort(y_cpy, yidx, 0, *n - 1);
+    ranksort(n, xrank, x_cpy, xidx);
+    ranksort(n, yrank, y_cpy, yidx);
+    createidx(n, xidx, x_cpy, lowxidx, higxidx);
+    createidx(n, yidx, y_cpy, lowyidx, higyidx);
+
+    free(x_cpy);
+    free(y_cpy);
 
     initRank(*n, Rank, xrank, yrank, i_perm);
     U_Ball_Information(bcov, n, Rank, lowxidx, higxidx, lowyidx, higyidx, i_perm);
